@@ -1,0 +1,5 @@
+library(readr)
+diabetes_data <- read_csv("diabetes.csv")
+library(DataExplorer)
+DataExplorer::create_report(diabetes_data)
+head(diabetes_data)
