@@ -24,4 +24,3 @@ Join us on this data-driven journey, and let's explore the fascinating world of 
 
 ---
 
-This updated introduction highlights that the repository covers data analysis with both R and Python, making it suitable for a wider audience with different language preferences and skill levels.
