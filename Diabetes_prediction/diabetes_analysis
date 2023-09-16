@@ -1,5 +1,48 @@
+#loading the readr library
 library(readr)
+
+# reading the dataset
 diabetes_data <- read_csv("diabetes.csv")
+
+# loading the dataexplorer for generating reports
 library(DataExplorer)
 DataExplorer::create_report(diabetes_data)
+#analysis
 head(diabetes_data)
+str(diabetes_data)
+colnames(diabetes_data)
+#checking the correlation
+correlation <- cor.test(diabetes_data$DiabetesPedigreeFunction, diabetes_data$Outcome)
+
+#splitting the data i nto features and target variables
+X <- diabetes_data[,-9]
+y <- diabetes_data$Outcome
+
+# Split the data into training and testing sets
+set.seed(42)  # Set a random seed for reproducibility
+install.packages("caTools")
+library(caTools)
+split <- sample.split(y, SplitRatio = 0.8)
+X_train <- X[split, ]
+y_train <- y[split]
+X_test <- X[!split, ]
+y_test <- y[!split]
+
+
+# choosing the machine learning algorithm
+install.packages("glmnet")
+library(glmnet)
+model <- glmnet(X_train, y_train, family = "binomial")
+
+# Predict on the test data
+y_pred <- predict(model, s = 0.01, newx = X_test, type = "response")
+
+# Convert predicted probabilities to binary predictions
+y_pred_binary <- ifelse(y_pred > 0.5, 1, 0)
+
+# Evaluate the model
+install.packages("caret")
+library(caret)
+confusion_matrix <- confusionMatrix(y_pred_binary, y_test)
+print(confusion_matrix)
+
