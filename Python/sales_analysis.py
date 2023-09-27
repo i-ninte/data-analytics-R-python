@@ -63,8 +63,11 @@ plt.xticks(rotation=45)
 plt.grid(True)
 plt.show()
 
-"""##Identifying Best Selling Products
+"""It is evident from the graph that the highest sales revenue is consistently generated in December, aligning with the fact that most orders are also placed during that month. From January to April, there is a gradual increase in sales revenue, followed by a gradual decline up to June. In July, there is a slight uptick, but sales revenue continues to decrease from July to September. Interestingly, there is a sudden and significant rise in sales revenue in October, although it experiences a slight dip in November, with the revenue being slightly lower than that in April. Notably, December stands out with a substantial number of orders and the highest revenue generation, as expected.
 
+Furthermore, it is worth noting a striking observation: a very steep decline from December to January of the new year, as the least sales are recorded in January of the new year.
+
+##Identifying Best Selling Products
 """
 
 # Group by product and calculate total quantity sold
@@ -77,27 +80,10 @@ best_selling_products = best_selling_products.sort_values(by='Quantity Ordered',
 N = 10
 print(best_selling_products.head(N))
 
-"""## Calculating  Revenue Metrics"""
+"""## Analyzing  Revenue Metrics
 
-import pandas as pd
-
-
-# Calculate total sales
-total_sales = sales['Sales'].sum()
-
-# Calculate profit margins using 'Price Each' as the cost
-sales['Profit'] = sales['Sales'] - (sales['Quantity Ordered'] * sales['Price Each'])
-total_profit = sales['Profit'].sum()
-
-# Calculate profit margin percentage
-profit_margin_percentage = (total_profit / total_sales) * 100
-
-# Display total sales and profit
-print(f'Total Sales: ${total_sales:.2f}')
-print(f'Total Profit: ${total_profit:.2f}')
-print(f'Profit Margin: {profit_margin_percentage:.2f}%')
-
-"""## A graph of Sales By City"""
+## A graph of Sales By City
+"""
 
 city_sales = sales.groupby('City')['Sales'].sum().reset_index()
 
@@ -109,6 +95,8 @@ plt.ylabel('Total Sales')
 plt.title('City-wise Sales')
 plt.xticks(rotation=90)
 plt.show()
+
+""" This signals that San Francisco is a pivotal market, generating the most revenue among all cities. This indicates strong customer demand, a robust local economy, or effective marketing efforts in the area. Leveraging this insight, the company can channel it's resources towards further nurturing this thriving market, devising tailored marketing strategies, and optimizing logistics to sustain and potentially increase sales. Additionally, this information prompts exploration into replicating successful strategies in other cities, unlocking untapped market potential, and ensuring your business remains competitive in San Francisco's high-performing landscape."""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -132,6 +120,18 @@ plt.gca().invert_yaxis()
 plt.grid(axis='x', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.show()
+
+"""
+
+The list of the best-selling products offers intriguing insights into the shopping habits of the customers and the dynamics of the market. It's clear that customers highly value essential accessories and devices like batteries, charging cables, headphones, and monitors. I've noticed that these items are consistently at the top of the sales chart. This suggests that the customers frequently purchase these products, possibly to complement their primary electronic devices.
+
+One interesting aspect is affordability. Many of the top sellers, such as batteries and charging cables, are relatively low-priced items. This indicates that price is a significant factor in the customers' decision-making process.
+
+Moreover, the popularity of products like the 'USB-C Charging Cable' and 'Lightning Charging Cable' points to a strong demand for accessories that are compatible with modern electronic devices like smartphones and laptops.
+
+I've also observed that well-known brands like Apple and Bose have a significant presence in our best-sellers list. This highlights the impact of brand reputation and product quality on the customers' choices.
+
+"""
 
 import matplotlib.pyplot as plt
 
@@ -177,6 +177,8 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.show()
 
+"""A plot of the highest sales month in each quarter reveals a trend where the last quarter of the year leads in sales, followed by the second, third, and first quarters. This pattern indicates a year-end surge in customer activity and can inform resource allocation and marketing strategies."""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -201,6 +203,53 @@ plt.xticks(range(24))
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.show()
+
+"""The peak order times at 19:00 and 12:00 indicate potential lunchtime and after-work shopping habits. It's crucial to align marketing efforts with these hours to maximize sales. Understanding customer behavior during these peaks can lead to targeted promotions and improved customer satisfaction."""
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+sales['Order Date'] = pd.to_datetime(sales['Order Date'])
+
+# Extract the hour from the 'Order Date' and create a new column
+sales['Hour'] = sales['Order Date'].dt.hour
+
+# Define function to map hour to quarter of the day
+def map_hour_to_quarter(hour):
+    if 0 <= hour < 6:
+        return 'Q1 (00:00 - 05:59)'
+    elif 6 <= hour < 12:
+        return 'Q2 (06:00 - 11:59)'
+    elif 12 <= hour < 18:
+        return 'Q3 (12:00 - 17:59)'
+    else:
+        return 'Q4 (18:00 - 23:59)'
+
+# Apply the mapping function to create a new 'Quarter' column
+sales['Quarter'] = sales['Hour'].apply(map_hour_to_quarter)
+
+# Group the data by quarter and count the number of orders in each quarter
+quarterly_orders = sales.groupby('Quarter').size().reset_index(name='Number of Orders')
+
+# Create a bar chart
+plt.figure(figsize=(12, 6))
+plt.bar(quarterly_orders['Quarter'], quarterly_orders['Number of Orders'], color='skyblue')
+plt.xlabel('Quarter of the Day')
+plt.ylabel('Number of Orders')
+plt.title('Number of Orders by Quarter of the Day')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+# Display the chart
+plt.show()
+
+# Find the quarter with the most orders
+most_orders_quarter = quarterly_orders[quarterly_orders['Number of Orders'] == quarterly_orders['Number of Orders'].max()]
+print("The quarter with the most orders:", most_orders_quarter['Quarter'].values[0])
+
+"""
+However, dividing the day into quarters, the period from 12:00 to 17:59 experiences the highest order volume, followed by 18:00 to 23:59. This suggests that late afternoon to early evening is the most active shopping time. Businesses can optimize marketing and inventory management during these peak periods to enhance customer engagement and sales."""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -233,6 +282,10 @@ plt.tight_layout()
 
 plt.show()
 
+"""MacBook Pro Laptop emerges as the top-selling product by sales revenue, closely followed by iPhone, ThinkPad Laptop, Google Phone, 27in 4K Monitor, 34in Ultrawide Monitor, Apple AirPods Pro Headphones, Flatscreen TV, Bose SoundSport Headphones, and 27in FHD Monitor. This ranking signifies the significance of high-value electronics in the product portfolio and underscores customer preferences for premium devices.
+Understanding these top performers aids in inventory management and informs strategic decisions, optimizing product offerings and marketing strategies.
+"""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -257,3 +310,5 @@ plt.xticks(range(1, 13), [str(i) for i in range(1, 13)])
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.show()
+
+"""It is evident from the graph that the highest sales revenue is consistently generated in December, aligning with the fact that most orders are also placed during that month. From January to April, there is a gradual increase in sales revenue, followed by a gradual decline up to June. In July, there is a slight uptick, but sales revenue continues to decrease from July to September. Interestingly, there is a sudden and significant rise in sales revenue in October, although it experiences a slight dip in November, with the revenue being slightly lower than that in April. Notably, December stands out with a substantial number of orders and the highest revenue generation, as expected."""
