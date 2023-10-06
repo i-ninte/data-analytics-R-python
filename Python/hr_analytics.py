@@ -44,13 +44,14 @@ hr.drop(['EmployeeCount', 'Over18', 'EmployeeNumber','StandardHours','HourlyRate
 #dropping duplicates
 hr.drop_duplicates(inplace=True)
 
-"""objectives
-to determine the distribution of the workplace based on the gender
+"""#objectives
+To determine the distribution of the workplace based on the gender
 the jobsatisfaction according to the jobrole
 how the columns affect attrition (age, department, distancefromhome,education, gender, maritalstatus, performancerating,overtime, )
 businesstravel and how it it affects
-how distancefromhome affects jobsatisfaction, performancerating, monthlyincome, overtime, trainingtimeslastyear,
+how distancefromhome affects jobsatisfaction, performancerating, monthlyincome, overtime, trainingtimeslastyear, etc.
 
+# a correlation graph between all numeric values
 """
 
 import seaborn as sns
@@ -68,6 +69,8 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5, fmt
 plt.title('Correlation Heatmap for Numeric Variables')
 plt.show()
 
+"""# A plot of Jobsatisfaction Vs OverTime"""
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -78,6 +81,8 @@ plt.xlabel('OverTime')
 plt.ylabel('JobSatisfaction')
 plt.title('JobSatisfaction vs. OverTime')
 plt.show()
+
+"""##MaritalStatus Vs Attrition"""
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -93,6 +98,8 @@ plt.title('MaritalStatus vs. Attrition')
 plt.legend(title='Attrition', labels=['No', 'Yes'])
 plt.show()
 
+"""##A graph of Attition against TotalWorkingYears"""
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -103,6 +110,8 @@ plt.xlabel('Attrition')
 plt.ylabel('TotalWorkingYears')
 plt.title('Attrition vs. TotalWorkingYears')
 plt.show()
+
+"""##Marital Status Against JobSatisfacttion"""
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -115,6 +124,8 @@ plt.ylabel('Count')
 plt.title('MaritalStatus vs. JobSatisfaction')
 plt.legend(title='JobSatisfaction')
 plt.show()
+
+"""#A plot of JobRole Against Attrition"""
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -129,6 +140,8 @@ plt.xticks(rotation=90)
 plt.legend(title='Attrition')
 plt.show()
 
+"""#A plot of Gender vs JobSatisfaction by Attrition"""
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -140,6 +153,8 @@ plt.ylabel('JobSatisfaction')
 plt.title('Gender vs. JobSatisfaction by Attrition')
 plt.legend(title='Attrition', loc='upper right')
 plt.show()
+
+"""## A plot of EducationField Against Attrition"""
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -153,6 +168,8 @@ plt.title('EducationField vs. Attrition')
 plt.xticks(rotation=45)
 plt.legend(title='Attrition', loc='upper right')
 plt.show()
+
+"""#A plot Of Department vs JobSatisfaction (Grouped By Attrition)"""
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -183,7 +200,6 @@ plt.show()
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Assuming you have a DataFrame named 'hr' with 'OverTime', 'DistanceFromHome', and 'JobSatisfaction' columns
 
 # Convert 'OverTime' to numerical values (for example, 'Yes' to 1, 'No' to 0)
 hr['OverTime'] = hr['OverTime'].map({'Yes': 1, 'No': 0})
@@ -248,3 +264,145 @@ cbar.set_label('Performance Rating')
 
 # Show the plot
 plt.show()
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+total_working_years = hr['TotalWorkingYears']
+
+plt.figure(figsize=(10, 6))
+plt.hist(total_working_years, bins=20, edgecolor='k')
+plt.xlabel('Total Working Years')
+plt.ylabel('Frequency')
+plt.title('Distribution of Total Working Years')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+distance_from_home = hr['DistanceFromHome']
+
+plt.figure(figsize=(10, 6))
+plt.hist(distance_from_home, bins=20, edgecolor='k')
+plt.xlabel('Distance From Home')
+plt.ylabel('Frequency')
+plt.title('Distribution of Distance From Home')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set(style="whitegrid")
+
+# Create a bar chart
+plt.figure(figsize=(12, 8))
+sns.barplot(x='MonthlyIncome', y='JobRole', data=hr, ci=None)
+plt.xlabel('Monthly Income')
+plt.ylabel('Job Role')
+plt.title('Monthly Income by Job Role')
+plt.show()
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Education', y='MonthlyIncome', data=hr)
+plt.title('Monthly Income by Education Level')
+plt.xlabel('Education Level')
+plt.ylabel('Monthly Income')
+plt.xticks(rotation=45)
+plt.show()
+
+"""#INFERENCE
+
+Correlation Map for Numeric Variables:
+• There is a positive correlation between “JobLevel” and “MonthlyIncome,” which suggests
+that as job level increases, monthly income tends to increase.
+• “JobLevel” and “TotalWorkingYears” also show a positive correlation, indicating that
+employees with more total working years tend to achieve higher job levels.
+2. Attrition by Overtime:
+• Employees who work overtime have a higher attrition rate compared to those who don’t.
+• Overtime may be a factor contributing to attrition within the company.
+3. Attrition by Marital Status:
+• Single employees have a relatively higher attrition rate compared to married or divorced
+employees.
+• Marital status appears to have an influence on attrition rates, with single employees
+more likely to leave.
+4. Attrition by Job Role:
+• Sales Representatives and Laboratory Technicians have higher attrition rates compared
+to other job roles.
+• The type of job role plays a significant role in attrition rates.
+5. Attrition by Gender:
+• Attrition rates between genders appear relatively balanced.
+• Gender alone does not seem to be a strong predictor of attrition.
+6. Attrition by Education Field:
+• Employees with a background in “Human Resources” and “Technical Degree” fields have
+20
+higher attrition rates.
+• Choice of education field may impact attrition rates.
+7. Attrition by Department:
+• The “Sales” department has a higher attrition rate compared to “Research & Develop￾ment” and “Human Resources.”
+• The department an employee works in influences attrition.
+8. Attrition by Business Travel:
+• Employees who travel frequently have a higher attrition rate than those who travel rarely.
+• Frequent business travel could be associated with higher attrition.
+9. Relation between Overtime and Age:
+• Employees working overtime tend to be slightly younger on average than those not working overtime.
+10. Total Working Years:
+• The distribution of total working years is right-skewed, with a concentration of employees
+having fewer years of total work experience.
+• A significant number of employees have less than 10 years of total working experience.
+11. Education Level:
+• Employees with “Bachelor’s” and “Master’s” degrees have a higher attrition rate compared to those with “College” or “Below College” education.
+• Higher education levels do not necessarily correlate with lower attrition.
+12. Number of Companies Worked:
+• Employees who have worked for a larger number of companies tend to have a slightly
+higher attrition rate.
+• Job-hopping employees may be more likely to leave the company.
+13. Distance from Home:
+• The distribution of distance from home shows that most employees live relatively close
+to the workplace.
+• A smaller number of employees have a longer commute distance.
+14.• Employees in the “Manager” and “Research Director” roles tend to have higher monthly
+incomes compared to other job roles.
+• “Laboratory Technician” and “Sales Representative” roles generally have lower monthly
+incomes.
+15.The distribution of education levels is similar for employees with and without attrition.
+• Attrition rates do not show a strong correlation with education level.
+
+#RECOMMENDATIONS
+
+1. **Job Level and Monthly Income**: Consider implementing a structured career progression plan that aligns with job levels to motivate employees and ensure fair compensation increases as they advance in their careers.
+
+2. **Overtime and Attrition**: Explore the reasons behind overtime work and its impact on attrition. If possible, optimize workload distribution or provide additional support to employees who regularly work overtime to reduce attrition risk.
+
+3. **Marital Status and Attrition**: Develop initiatives or support programs specifically tailored to single employees to enhance their job satisfaction and commitment to the company.
+
+4. **Job Role and Attrition**: Investigate the reasons for higher attrition rates among Sales Representatives and Laboratory Technicians. Implement strategies to improve job satisfaction and retention in these roles.
+
+5. **Gender and Attrition**: Continue to maintain a balanced workplace in terms of gender. Focus on other factors that might contribute to attrition rather than gender.
+
+6. **Education Field and Attrition**: Monitor and address the specific challenges or concerns that employees with backgrounds in "Human Resources" and "Technical Degree" fields might face to reduce attrition.
+
+7. **Department and Attrition**: Investigate the underlying causes of higher attrition in the Sales department and implement measures to improve retention.
+
+8. **Business Travel and Attrition**: Evaluate the reasons behind frequent business travel and consider ways to mitigate its impact on employee attrition.
+
+9. **Overtime and Age**: Recognize that younger employees tend to work overtime more frequently. Ensure they receive proper support and work-life balance.
+
+10. **Total Working Years**: Provide career development opportunities for employees with fewer years of total work experience, considering their career aspirations.
+
+11. **Education Level and Attrition**: Recognize that higher education levels do not necessarily correlate with lower attrition. Focus on other factors affecting attrition for employees with Bachelor's and Master's degrees.
+
+12. **Number of Companies Worked**: Address concerns related to job-hopping employees to retain talent and maintain a stable workforce.
+
+13. **Distance from Home**: Consider offering flexible work arrangements or remote work options for employees with longer commute distances.
+
+14. **Job Roles and Monthly Income**: Ensure that salary structures are competitive, and employees are compensated fairly across all job roles.
+
+15. **Education Levels and Attrition**: Focus on factors other than education levels when addressing attrition, as it does not show a strong correlation.
+"""
