@@ -371,7 +371,7 @@ to the workplace.
 incomes compared to other job roles.
 • “Laboratory Technician” and “Sales Representative” roles generally have lower monthly
 incomes.
-15.The distribution of education levels is similar for employees with and without attrition.
+15. The distribution of education levels is similar for employees with and without attrition.
 • Attrition rates do not show a strong correlation with education level.
 
 #RECOMMENDATIONS
@@ -386,7 +386,7 @@ incomes.
 
 5. **Gender and Attrition**: Continue to maintain a balanced workplace in terms of gender. Focus on other factors that might contribute to attrition rather than gender.
 
-6. **Education Field and Attrition**: Monitor and address the specific challenges or concerns that employees with backgrounds in "Human Resources" and "Technical Degree" fields might face to reduce attrition.
+6. **Education Field and Attrition**: Monitor and address the specific challenges or concerns that employees with backgrounds in the "Human Resources" and "Technical Degree" fields might face to reduce attrition.
 
 7. **Department and Attrition**: Investigate the underlying causes of higher attrition in the Sales department and implement measures to improve retention.
 
