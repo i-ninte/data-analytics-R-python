@@ -64,3 +64,79 @@ print("\n5. How time spent on course materials contributes to course completion:
 print(time_vs_completion)
 
 
+
+
+# with viz
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the DataFrame
+# Replace 'your_data.csv' with the actual data file path
+df = pd.read_csv('your_data.csv')
+
+# Convert date columns to datetime objects if they're not already
+df['course_start_date'] = pd.to_datetime(df['course_start_date'])
+df['course_end_date'] = pd.to_datetime(df['course_end_date'])
+df['enrollment_date'] = pd.to_datetime(df['enrollment_date'])
+
+# Calculate student engagement score (example: the sum of forum posts, forum replies, and forum likes)
+df['engagement_score'] = df['forum posts'] + df['forum replies'] + df['forum likes']
+
+# 1. How student engagement affects overall performance
+# Correlation matrix
+engagement_vs_performance = df[['engagement_score', 'assignment_score', 'quiz_scores', 'course_completion']].corr()
+
+# Create a heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(engagement_vs_performance, annot=True, cmap='coolwarm', square=True)
+plt.title('Correlation Heatmap: Engagement vs. Performance')
+plt.show()
+
+# 3. Course with the highest average passing rate and relation to student engagement
+course_completion_means = df.groupby('course_name')['course_completion'].mean().sort_values(ascending=False)
+highest_passing_rate_course = course_completion_means.idxmax()
+avg_passing_rate = course_completion_means.max()
+engagement_for_highest_passing_rate_course = df[df['course_name'] == highest_passing_rate_course]['engagement_score'].mean()
+
+# Create a bar plot
+plt.figure(figsize=(12, 6))
+sns.barplot(x=course_completion_means.index, y=course_completion_means.values)
+plt.xticks(rotation=90)
+plt.xlabel('Course Name')
+plt.ylabel('Average Passing Rate')
+plt.title('Average Passing Rate by Course')
+plt.show()
+
+# 4. How time spent on course materials affects quiz and assignment scores
+time_vs_scores = df[['time_spent_on_course_materials', 'assignment_score', 'quiz_scores']].corr()
+
+# Create a heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(time_vs_scores, annot=True, cmap='coolwarm', square=True)
+plt.title('Correlation Heatmap: Time vs. Assignment/Quiz Scores')
+plt.show()
+
+# 5. How time spent on course materials contributes to course completion
+time_vs_completion = df[['time_spent_on_course_materials', 'course_completion']].corr()
+
+# Create a scatter plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df, x='time_spent_on_course_materials', y='course_completion')
+plt.xlabel('Time Spent on Course Materials')
+plt.ylabel('Course Completion Rate')
+plt.title('Time vs. Course Completion')
+plt.show()
+
+# 6. How student engagement contributes to course completion
+engagement_vs_completion = df[['engagement_score', 'course_completion']].corr()
+
+# Create a scatter plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df, x='engagement_score', y='course_completion')
+plt.xlabel('Engagement Score')
+plt.ylabel('Course Completion Rate')
+plt.title('Engagement vs. Course Completion')
+plt.show()
+
