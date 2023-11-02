@@ -12,6 +12,13 @@ df['course_start_date'] = pd.to_datetime(df['course_start_date'])
 df['course_end_date'] = pd.to_datetime(df['course_end_date'])
 df['enrollment_date'] = pd.to_datetime(df['enrollment_date'])
 
+
+df.shape
+df.isnull().sum()
+df= df.fillna(0)
+df.describe()
+df.info()
+
 # Calculate student engagement score (example: the sum of forum posts, forum replies, and forum likes)
 df['engagement_score'] = df['forum posts'] + df['forum replies'] + df['forum likes']
 
