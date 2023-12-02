@@ -1,6 +1,4 @@
 
-
-
 # data-analytics-with-R-programming
 Welcome to the world of data analytics with R and Python! This repository serves as a comprehensive resource for mastering the entire data analysis pipeline using two powerful programming languages.
 
