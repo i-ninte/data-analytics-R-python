@@ -1,20 +1,34 @@
+# Install required packages
 install.packages("DataExplorer")
-library(DataExplorer)
 install.packages("rmarkdown")
-library(rmarkdown)
-sales <- read_csv("sales.csv")
-library(readr)
-report <- DataExplorer::create_report(sales)
+install.packages("readr")
 
+# Load the libraries
+library(DataExplorer)
+library(rmarkdown)
+library(readr)
+
+# Read the data
+data <- read_csv("Student_Performance.csv")
+
+# Create a DataExplorer report
+report <- DataExplorer::create_report(data, output_file = "student_performance.html")
+
+# Create an RMarkdown file for the report
+rmd_content <- "
 ---
-  title: "DataExplorer Report"
+title: 'DataExplorer Report'
 output:
   pdf_document:
-  latex_engine: xelatex
+    latex_engine: xelatex
 ---
-  
-  <iframe src="your_report.html" width="100%" height="800"></iframe>
-  
-  render("report.Rmd")
 
+<iframe src='student_performance.html' width='100%' height='800'></iframe>
+"
+
+# Write the RMarkdown content to a file
+writeLines(rmd_content, con = "report.Rmd")
+
+# Render the RMarkdown file to PDF
+render("report.Rmd")
 
